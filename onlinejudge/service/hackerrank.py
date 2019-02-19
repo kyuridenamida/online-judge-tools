@@ -36,7 +36,6 @@ class HackerRankService(onlinejudge.type.Service):
         # get
         resp = utils.request('GET', url, session=session)
         if resp.url != url:
-            log.debug('redirected: %s', resp.url)
             log.info('You have already signed in.')
             return
         # parse
@@ -55,7 +54,6 @@ class HackerRankService(onlinejudge.type.Service):
         form.set('fallback', 'true')
         resp = form.request(session, method='POST', action='/rest/auth/login', headers={'X-CSRF-Token': csrftoken})
         resp.raise_for_status()
-        log.debug('redirected: %s', resp.url)
         # result
         if '/auth' not in resp.url:
             log.success('You signed in.')
@@ -67,7 +65,6 @@ class HackerRankService(onlinejudge.type.Service):
         session = session or utils.new_default_session()
         url = 'https://www.hackerrank.com/auth/login'
         resp = utils.request('GET', url, session=session)
-        log.debug('redirected: %s', resp.url)
         return '/auth' not in resp.url
 
     def get_url(self) -> str:
