@@ -63,6 +63,9 @@ class CodeforcesService(onlinejudge.type.Service):
         return 'https://codeforces.com/'
 
     def get_name(self) -> str:
+        return 'Codeforces'
+
+    def get_id(self) -> str:
         return 'codeforces'
 
     @classmethod

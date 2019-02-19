@@ -30,6 +30,9 @@ class KattisService(onlinejudge.type.Service):
         return 'http://open.kattis.org/'
 
     def get_name(self) -> str:
+        return 'Kattis'
+
+    def get_id(self) -> str:
         return 'kattis'
 
     @classmethod

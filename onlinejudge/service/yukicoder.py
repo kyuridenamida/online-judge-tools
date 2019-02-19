@@ -90,6 +90,9 @@ class YukicoderService(onlinejudge.type.Service):
     def get_name(self) -> str:
         return 'yukicoder'
 
+    def get_id(self) -> str:
+        return 'yukicoder'
+
     @classmethod
     def from_url(cls, url: str) -> Optional['YukicoderService']:
         # example: http://yukicoder.me/

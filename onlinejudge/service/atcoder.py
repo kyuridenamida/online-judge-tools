@@ -100,6 +100,9 @@ class AtCoderService(onlinejudge.type.Service):
         return 'https://atcoder.jp/'
 
     def get_name(self) -> str:
+        return 'AtCoder'
+
+    def get_id(self) -> str:
         return 'atcoder'
 
     @classmethod
@@ -253,7 +256,7 @@ class AtCoderContest(object):
         assert m
         self._penalty = datetime.timedelta(minutes=int(m.group(2)))
 
-    def get_contest_name(self, lang: Optional[str] = None, session: Optional[requests.Session] = None) -> str:
+    def get_name(self, lang: Optional[str] = None, session: Optional[requests.Session] = None) -> str:
         if lang is None:
             if self._contest_name_en is not None:
                 return self._contest_name_en

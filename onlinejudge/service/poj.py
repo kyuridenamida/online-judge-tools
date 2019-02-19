@@ -23,6 +23,9 @@ class POJService(onlinejudge.type.Service):
         return 'http://poj.org/'
 
     def get_name(self) -> str:
+        return 'PKU JudgeOnline'
+
+    def get_id(self) -> str:
         return 'poj'
 
     @classmethod

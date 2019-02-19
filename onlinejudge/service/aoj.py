@@ -31,6 +31,9 @@ class AOJService(onlinejudge.type.Service):
         return 'http://judge.u-aizu.ac.jp/onlinejudge/'
 
     def get_name(self) -> str:
+        return 'Aizu Online Judge'
+
+    def get_id(self) -> str:
         return 'aoj'
 
     @classmethod

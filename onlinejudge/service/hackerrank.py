@@ -71,6 +71,9 @@ class HackerRankService(onlinejudge.type.Service):
         return 'https://www.hackerrank.com/'
 
     def get_name(self) -> str:
+        return 'HackeRrank'
+
+    def get_id(self) -> str:
         return 'hackerrank'
 
     @classmethod

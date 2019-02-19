@@ -24,6 +24,9 @@ class CSAcademyService(onlinejudge.type.Service):
         return 'https://csacademy.com/'
 
     def get_name(self) -> str:
+        return 'CS Academy'
+
+    def get_id(self) -> str:
         return 'csacademy'
 
     @classmethod

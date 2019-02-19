@@ -61,6 +61,9 @@ class TopcoderService(onlinejudge.type.Service):
         return 'https://www.topcoder.com/'
 
     def get_name(self) -> str:
+        return 'Topcoder'
+
+    def get_id(self) -> str:
         return 'topcoder'
 
     @classmethod

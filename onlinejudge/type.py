@@ -25,6 +25,23 @@ class Service(object):
         raise NotImplementedError
 
     def get_name(self) -> str:
+        """
+        example:
+
+        -   `AtCoder`
+        -   `Codeforces`
+        -   `PKU JudgeOnline`
+        """
+        raise NotImplementedError
+
+    def get_id(self) -> str:
+        """
+        example:
+
+        -   `atcoder`
+        -   `codeforces`
+        -   `poj`
+        """
         raise NotImplementedError
 
     @classmethod
@@ -89,6 +106,16 @@ class Problem(object):
         raise NotImplementedError
 
     def get_service(self) -> Service:
+        raise NotImplementedError
+
+    def get_name(self) -> str:
+        """
+        example:
+
+        -   `器物損壊！高橋君`
+        -   `AtCoDeerくんと変なじゃんけん / AtCoDeer and Rock-Paper`
+        -   `Xor Sum`
+        """
         raise NotImplementedError
 
     def get_input_format(self, session: Optional[requests.Session] = None) -> Optional[str]:

@@ -23,6 +23,9 @@ class AnarchyGolfService(onlinejudge.type.Service):
         return 'http://golf.shinh.org/'
 
     def get_name(self) -> str:
+        return 'Anarchy Golf'
+
+    def get_id(self) -> str:
         return 'anarchygolf'
 
     @classmethod
