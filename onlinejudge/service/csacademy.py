@@ -18,7 +18,6 @@ import onlinejudge.type
 from onlinejudge.type import TestCase
 
 
-@utils.singleton
 class CSAcademyService(onlinejudge.type.Service):
     def get_url(self) -> str:
         return 'https://csacademy.com/'

@@ -54,7 +54,6 @@ def _request(*args, **kwargs):
     return resp
 
 
-@utils.singleton
 class AtCoderService(onlinejudge.type.Service):
     def login(self, get_credentials: onlinejudge.type.CredentialsProvider, session: Optional[requests.Session] = None) -> None:
         """
@@ -161,10 +160,10 @@ class AtCoderContest(object):
         self.contest_id = contest_id
 
         # NOTE: some fields remain undefined, comparing `_from_table_row`
-        self._start_time= None  # type: Optional[datetime.datetime]
+        self._start_time = None  # type: Optional[datetime.datetime]
         self._contest_name_ja = None  # type: Optional[str]
         self._contest_name_en = None  # type: Optional[str]
-        self._duration= None  # type: Optional[datetime.timedelta]
+        self._duration = None  # type: Optional[datetime.timedelta]
         self._rated_range = None  # type: Optional[str]
         self._rated_range = None  # type: Optional[str]
         self._can_participate = None  # type: Optional[str]
