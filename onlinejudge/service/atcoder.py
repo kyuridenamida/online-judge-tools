@@ -60,7 +60,7 @@ class AtCoderService(onlinejudge.type.Service):
         :raises LoginError:
         """
 
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         if self.is_logged_in(session=session):
             return
 
@@ -90,7 +90,7 @@ class AtCoderService(onlinejudge.type.Service):
             raise LoginError
 
     def is_logged_in(self, session: Optional[requests.Session] = None) -> bool:
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         url = 'https://atcoder.jp/contests/practice/submit'
         resp = _request('GET', url, session=session, allow_redirects=False)
         return resp.status_code == 200
@@ -127,7 +127,7 @@ class AtCoderService(onlinejudge.type.Service):
         """
 
         assert lang in ('ja', 'en')
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         last_page = None
         for page in itertools.count(1):  # 1-based
             if last_page is not None and page > last_page:
@@ -234,7 +234,7 @@ class AtCoderContest(object):
         return datetime.datetime.strptime(query['iso'][0], '%Y%m%dT%H%M').replace(tzinfo=utils.tzinfo_jst)
 
     def _load_details(self, session: Optional[requests.Session] = None, lang: Optional[str] = None):
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         resp = _request('GET', self.get_url(type='beta', lang=lang), session=session)
         soup = bs4.BeautifulSoup(resp.content.decode(resp.encoding), utils.html_parser)
 
@@ -286,7 +286,7 @@ class AtCoderContest(object):
 
     def list_problems(self, session: Optional[requests.Session] = None) -> List['AtCoderProblem']:
         # get
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         url = 'https://atcoder.jp/contests/{}/tasks'.format(self.contest_id)
         resp = _request('GET', url, session=session)
 
@@ -329,7 +329,7 @@ class AtCoderProblem(onlinejudge.type.Problem):
         return self
 
     def download_sample_cases(self, session: Optional[requests.Session] = None) -> List[onlinejudge.type.TestCase]:
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         # get
         resp = _request('GET', self.get_url(type='beta'), session=session)
         if _list_alert(resp):
@@ -430,7 +430,7 @@ class AtCoderProblem(onlinejudge.type.Problem):
         return None
 
     def get_input_format(self, session: Optional[requests.Session] = None) -> str:
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         # get
         resp = _request('GET', self.get_url(type='beta'), session=session)
         if _list_alert(resp):
@@ -456,7 +456,7 @@ class AtCoderProblem(onlinejudge.type.Problem):
         """
         :raises NotLoggedInError:
         """
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
 
         # get
         resp = _request('GET', self.get_url(type='beta'), session=session)
@@ -482,7 +482,7 @@ class AtCoderProblem(onlinejudge.type.Problem):
         """
 
         assert language_id in [language.id for language in self.get_available_languages(session=session)]
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
 
         # get
         url = 'https://atcoder.jp/contests/{}/submit'.format(self.contest_id)
@@ -517,7 +517,7 @@ class AtCoderProblem(onlinejudge.type.Problem):
             raise SubmissionError('it may be a rate limit')
 
     def _load_details(self, session: Optional[requests.Session] = None) -> None:
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
 
         # get
         resp = _request('GET', self.get_url(type='beta', lang='ja'), session=session)
@@ -627,7 +627,7 @@ class AtCoderSubmission(onlinejudge.type.Submission):
         return self.get_source_code(session=session)
 
     def _load_details(self, session: Optional[requests.Session] = None) -> None:
-        session = session or utils.new_default_session()
+        session = session or utils.get_default_session()
         resp = _request('GET', self.get_url(type='beta', lang='en'), session=session)
         soup = bs4.BeautifulSoup(resp.content.decode(resp.encoding), utils.html_parser)
 
