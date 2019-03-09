@@ -251,6 +251,16 @@ class AtCoderContest(object):
         assert m
         self._penalty = datetime.timedelta(minutes=int(m.group(2)))
 
+    def _iterate_submissions_on_html(self, html: str) -> Generator['AtCoderSubmission', None, None]:
+        soup = bs4.BeautifulSoup(html, utils.html_parser)
+        tbodies = soup.find_all('tbody')
+        if len(tbodies) == 0:
+            return  # No Submissions
+        assert len(tbodies) == 1
+        tbody = tbodies[0]
+        for tr in tbody.find_all('tr'):
+            yield AtCoderSubmission._from_table_row(tr, contest_id=self.contest_id)
+
     def get_contest_name(self, lang: Optional[str] = None, session: Optional[requests.Session] = None) -> str:
         if lang is None:
             if self._contest_name_en is not None:
@@ -323,16 +333,8 @@ class AtCoderContest(object):
             params_page = ({'page': str(page)} if page >= 2 else {})
             url = base_url + '?' + urllib.parse.urlencode({**params, **params_page})
             resp = _request('GET', url, session=session)
-
-            # parse
-            soup = bs4.BeautifulSoup(resp.content.decode(resp.encoding), utils.html_parser)
-            tbodies = soup.find_all('tbody')
-            if len(tbodies) == 0:
-                break  # No Submissions
-            assert len(tbodies) == 1
-            tbody = tbodies[0]
-            for tr in tbody.find_all('tr'):
-                yield AtCoderSubmission._from_table_row(tr, contest_id=self.contest_id)
+            for submission in self._iterate_submissions_on_html(resp.content.decode(resp.encoding)):
+                yield submission
 
     def iterate_submissions(self, session: Optional[requests.Session] = None) -> Generator['AtCoderSubmission', None, None]:
         """
@@ -565,10 +567,10 @@ class AtCoderProblem(onlinejudge.type.Problem):
 
         # result
         if '/submissions/me' in resp.url:
-            # example: https://practice.contest.atcoder.jp/submissions/me#32174
-            # CAUTION: this URL is not a URL of the submission
-            log.success('success: result: %s', resp.url)
-            return utils.DummySubmission(resp.url, problem=self)
+            # Assume the latest submission is for this submission attempt.
+            latest_submission = next(self.get_contest()._iterate_submissions_on_html(resp.content.decode(resp.encoding)))
+            log.success('success: result: %s', latest_submission.get_url())
+            return latest_submission
         else:
             raise SubmissionError('it may be a rate limit')
 
